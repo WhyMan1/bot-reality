@@ -1,7 +1,7 @@
 services:
   bot:
     container_name: domain-bot
-    image: ghcr.io/dignezzz/bot-reality:latest
+    image: ghcr.io/whyman1/bot-reality:latest
     command: python bot.py
     env_file:
       - .env
@@ -30,7 +30,7 @@ services:
         compress: "true"
         
   worker:
-    image: ghcr.io/dignezzz/bot-reality:latest
+    image: ghcr.io/whyman1/bot-reality:latest
     command: python worker.py
     env_file:
       - .env
