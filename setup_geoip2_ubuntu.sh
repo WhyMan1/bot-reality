@@ -1,58 +1,58 @@
 #!/bin/bash
-# Скрипт для настройки GeoIP2 на Ubuntu сервере
+# Script for setting up GeoIP2 on Ubuntu server
 
-echo "🌍 Настройка GeoIP2 для Ubuntu сервера..."
+echo "🌍 Setting up GeoIP2 for Ubuntu server..."
 
-# Создаем директории
+# Create directories
 sudo mkdir -p /var/lib/geoip
 sudo mkdir -p /opt/geoip
 
-# Устанавливаем зависимости
-echo "📦 Установка зависимостей..."
+# Install dependencies
+echo "📦 Installing dependencies..."
 sudo apt-get update
 sudo apt-get install -y python3-pip curl wget
 
-# Устанавливаем Python пакеты
+# Install Python packages
 pip3 install geoip2 maxminddb schedule
 
-# Загружаем базу данных в системную директорию
-echo "📥 Загрузка базы данных GeoIP2..."
+# Download database to system directory
+echo "📥 Downloading GeoIP2 database..."
 cd /var/lib/geoip
 
-# Используем автообновляльщик
+# Use auto-updater
 if [ -f "/path/to/bot-reality/geoip2_updater.py" ]; then
     sudo python3 /path/to/bot-reality/geoip2_updater.py --force
 else
-    # Альтернативная загрузка
+    # Alternative download
     sudo wget -O GeoLite2-City.mmdb.tmp "https://github.com/P3TERX/GeoLite.mmdb/raw/download/GeoLite2-City.mmdb"
     
-    # Проверяем размер файла
+    # Check file size
     if [ -s GeoLite2-City.mmdb.tmp ]; then
         sudo mv GeoLite2-City.mmdb.tmp GeoLite2-City.mmdb
-        echo "✅ База данных загружена в /var/lib/geoip/GeoLite2-City.mmdb"
+        echo "✅ Database downloaded to /var/lib/geoip/GeoLite2-City.mmdb"
     else
-        echo "❌ Ошибка загрузки базы данных"
+        echo "❌ Database download error"
         sudo rm -f GeoLite2-City.mmdb.tmp
         exit 1
     fi
 fi
 
-# Устанавливаем права доступа
+# Set access permissions
 sudo chown -R www-data:www-data /var/lib/geoip
 sudo chmod -R 644 /var/lib/geoip/*.mmdb
 
-# Создаем cron задачу для автообновления
-echo "⏰ Настройка автообновления..."
+# Create cron job for auto-update
+echo "⏰ Setting up auto-update..."
 CRON_JOB="0 3 * * 0 cd /path/to/bot-reality && python3 geoip2_updater.py --force >> /var/log/geoip2_update.log 2>&1"
 
-# Добавляем в crontab если еще не добавлено
+# Add to crontab if not already added
 (crontab -l 2>/dev/null | grep -v "geoip2_updater.py"; echo "$CRON_JOB") | crontab -
 
-echo "✅ Настройка завершена!"
+echo "✅ Setup complete!"
 echo ""
-echo "📋 Для использования добавьте в .env:"
+echo "📋 To use, add to .env:"
 echo "GEOIP2_DB_PATH=/var/lib/geoip/GeoLite2-City.mmdb"
 echo "GEOIP2_AUTO_UPDATE=true"
 echo "RIPE_NCC_ENABLED=true"
 echo ""
-echo "🔍 Проверить статус: python3 geoip2_updater.py --status"
+echo "🔍 Check status: python3 geoip2_updater.py --status"

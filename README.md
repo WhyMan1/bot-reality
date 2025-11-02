@@ -1,250 +1,250 @@
 # Domain Reality Checker Bot
 
-⚡ **Domain Reality Checker Bot** — это усовершенствованный Telegram-бот на базе Python и библиотеки Aiogram для проверки доменов на пригодность 
-- 🎯 **Контекстные ответы** — результаты приходят в нужную тему
-- 📱 **Организованность** — обсуждения не смешиваются между темами  
-- 🔄 **Поддержка всех команд** — работают команды с префиксом, упоминания и ответы
+⚡ **Domain Reality Checker Bot** — an advanced Telegram bot based on Python and Aiogram library for checking domains for suitability
+- 🎯 **Contextual responses** — results appear in the relevant topic
+- 📱 **Organization** — discussions don't mix between topics  
+- 🔄 **Support for all commands** — prefix commands, mentions, and replies work
 
-## 💬 Умная работа в группах
+## 💬 Smart Group Operation
 
-### 📋 Краткие отчёты с reply
-- В группах бот всегда отвечает **через reply** на оригинальное сообщение
-- Отправляется **краткий отчёт** для экономии места в чате
-- К краткому отчёту добавляется кнопка **"📄 Полный отчёт в ЛС"**
+### 📋 Brief Reports with Reply
+- In groups, the bot always responds **via reply** to the original message
+- A **brief report** is sent to save space in chat
+- A **"📄 Full Report in DM"** button is added to brief reports
 
-### 📄 Полные отчёты в личных сообщениях
-- Полные отчёты **автоматически отправляются в ЛС** пользователя
-- Команда `!full domain.com` в группе → полный отчёт приходит в ЛС
-- Кнопка "📄 Полный отчёт в ЛС" → **умная ссылка на бота** с автоматическим запросом
-- **Безопасность**: deep link работает для любого пользователя
+### 📄 Full Reports in Direct Messages
+- Full reports are **automatically sent to DM** of the user
+- Command `!full domain.com` in group → full report comes to DM
+- "📄 Full Report in DM" button → **smart bot link** with automatic query
+- **Security**: deep link works for any user
 
-💡 **Как это работает**: Кнопка содержит ссылку вида `https://t.me/botname?start=full_domain.com`, которая автоматически откроет бота и запросит полный отчёт. Никакой предварительной настройки не требуется!
+💡 **How it works**: The button contains a link like `https://t.me/botname?start=full_domain.com`, which will automatically open the bot and request a full report. No prior setup is required!
 
-### 🔄 Поведение по типам чатов
-| Тип чата | Краткий отчёт | Полный отчёт | Кнопка |
+### 🔄 Behavior by Chat Types
+| Chat Type | Brief Report | Full Report | Button |
 |----------|---------------|--------------|---------|
-| **Личные сообщения** | В том же чате | В том же чате | "Полный отчёт" |
-| **Группы/Супергруппы** | Reply в группе | Отправка в ЛС | "📄 Полный отчёт в ЛС" |
-| **Темы в супергруппах** | Reply в теме | Отправка в ЛС | "📄 Полный отчёт в ЛС" |
+| **Direct Messages** | In the same chat | In the same chat | "Full Report" |
+| **Groups/Supergroups** | Reply in group | Sending to DM | "📄 Full Report in DM" |
+| **Topics in Supergroups** | Reply in topic | Sending to DM | "📄 Full Report in DM" |
 
-## 🚀 Быстрый запуск с Dockereality/VLESS прокси. Бот работает асинхронно, использует Redis для управления очередью задач и кэширования результатов, а также предоставляет краткие и полные отчёты о проверке доменов.
+## 🚀 Quick Start with Dockereality/VLESS Proxy. The bot works asynchronously, uses Redis for task queue management and result caching, and provides brief and full reports on domain checks.
 
-## ✨ Новые возможности
+## ✨ New Features
 
-### 🚀 Система повторных попыток (Retry Logic)
-- **Exponential backoff** с настраиваемым jitter
-- **Автоматические повторы** для Redis, Telegram API и проверки доменов
-- **Гибкая конфигурация** времени ожидания и количества попыток
+### 🚀 Retry Logic System
+- **Exponential backoff** with configurable jitter
+- **Automatic retries** for Redis, Telegram API, and domain checks
+- **Flexible configuration** of timeout and number of attempts
 
-### 📊 Батч-обработка с прогресс-барами
-- **Автоматический прогресс-бар** для проверки 3+ доменов
-- **Батч-обработка** по 3 домена за раз для оптимизации
-- **Подробная статистика** выполнения (успешно, из кэша, ошибки)
+### 📊 Batch Processing with Progress Bars
+- **Automatic progress bar** for checking 3+ domains
+- **Batch processing** of 3 domains at a time for optimization
+- **Detailed execution statistics** (successful, from cache, errors)
 
-### 📈 Система аналитики
-- **Сбор метрик** использования бота и проверок доменов
-- **Детальные отчеты** для администратора (/analytics)
-- **Трекинг** популярных доменов и пользовательской активности
+### 📈 Analytics System
+- **Collection of metrics** on bot usage and domain checks
+- **Detailed reports** for the administrator (/analytics)
+- **Tracking** of popular domains and user activity
 
-### 🔒 Безопасность для групповых чатов
-- **Авторизация групп** через переменные окружения
-- **Автоматический выход** из неавторизованных групп
-- **Гибкое управление** списком разрешенных групп
+### 🔒 Security for Group Chats
+- **Group authorization** via environment variables
+- **Automatic exit** from unauthorized groups
+- **Flexible management** of the allowed groups list
 
-### 🧵 Поддержка тем в супергруппах
-- **Умные ответы** в той же теме, где упомянули бота
-- **Контекстная работа** с топиками Telegram
-- **Организованное общение** в больших группах
+### 🧵 Support for Topics in Supergroups
+- **Smart replies** in the same topic where the bot was mentioned
+- **Contextual work** with Telegram topics
+- **Organized communication** in large groups
 
-### 🎛️ Групповой режим работы
-- **Команды с префиксом** (!check, !full, !help)
-- **Упоминания бота** (@botname domain.com)
-- **Ответы на сообщения** бота с новыми доменами
-- **Настраиваемый префикс** команд
-- **Умные ответы в группах**: краткие отчёты с reply + кнопка "Полный в ЛС"
-- **Полные отчёты в ЛС**: автоматическая отправка полных отчётов в личные сообщения
+### 🎛️ Group Operation Mode
+- **Prefix commands** (!check, !full, !help)
+- **Bot mentions** (@botname domain.com)
+- **Replies to bot messages** with new domains
+- **Configurable command prefix**
+- **Smart replies in groups**: brief reports with reply + "Full in DM" button
+- **Full reports in DM**: automatic sending of full reports to direct messages
 
-## 🔍 Что проверяет
+## 🔍 What it Checks
 
-Бот выполняет комплексную проверку доменов и возвращает отчёт, включающий:
+The bot performs a comprehensive domain check and returns a report including:
 
-- 🌐 **DNS**: Разрешение A-записи (IPv4)
-- 📡 **Скан портов**: Проверка открытых TCP-портов (80, 443, 8443)
-- 🌍 **География и ASN**: Геолокация IP, ASN и провайдер
-- 🚫 **Spamhaus**: Проверка IP в чёрных списках Spamhaus
-- 🟢 **Ping**: Задержка до сервера (в миллисекундах)
-- 🔒 **TLS**: Версия TLS (например, TLSv1.3), шифр, срок действия сертификата
-- 🌐 **HTTP**: Поддержка HTTP/2 и HTTP/3, TTFB (время до первого байта), редиректы, сервер, наличие WAF и CDN
-- 📄 **WHOIS**: Срок действия домена
-- 🛰 **Оценка пригодности**: Вердикт, пригоден ли домен для Reality (учитывает отсутствие CDN, поддержку HTTP/2, TLSv1.3 и пинг < 50 мс)
+- 🌐 **DNS**: A-record (IPv4) resolution
+- 📡 **Port scan**: Checking open TCP ports (80, 443, 8443)
+- 🌍 **Geography and ASN**: IP geolocation, ASN, and provider
+- 🚫 **Spamhaus**: IP check in Spamhaus blacklists
+- 🟢 **Ping**: Latency to the server (in milliseconds)
+- 🔒 **TLS**: TLS version (e.g., TLSv1.3), cipher, certificate validity
+- 🌐 **HTTP**: HTTP/2 and HTTP/3 support, TTFB (time to first byte), redirects, server, presence of WAF and CDN
+- 📄 **WHOIS**: Domain expiration date
+- 🛰 **Suitability assessment**: Verdict on whether the domain is suitable for Reality (considers absence of CDN, HTTP/2 support, TLSv1.3, and ping < 50 ms)
 
-### Пример краткого отчёта
+### Example of a Brief Report
 ```
-🔍 Проверка: 35photo.pro:443
+🔍 Check: 35photo.pro:443
 ✅ A: 185.232.233.233
 🟢 Ping: ~25.0 ms
     🔒 TLS
-✅ TLSv1.3 поддерживается
+✅ TLSv1.3 supported
     🌐 HTTP
-❌ HTTP/2 не поддерживается
-❌ HTTP/3 не поддерживается
-🟢 WAF не обнаружен
-🟢 CDN не обнаружен
-    🛰 Оценка пригодности
-❌ Не пригоден: HTTP/2 отсутствует
-[Полный отчёт]
+❌ HTTP/2 not supported
+❌ HTTP/3 not supported
+🟢 WAF not detected
+🟢 CDN not detected
+    🛰 Suitability assessment
+❌ Not suitable: HTTP/2 missing
+[Full report]
 ```
 
-### Пример полного отчёта
+### Example of a Full Report
 ```
-🔍 Проверка: google.com:443
+🔍 Check: google.com:443
 🌐 DNS
 ✅ A: 142.250.74.14
-📡 Скан портов
-🟢 TCP 80 открыт
-🟢 TCP 443 открыт
-🔴 TCP 8443 закрыт
-🌍 География и ASN
+📡 Port scan
+🟢 TCP 80 open
+🟢 TCP 443 open
+🔴 TCP 8443 closed
+🌍 Geography and ASN
 📍 IP: SE / Stockholm County / Stockholm
 🏢 ASN: AS15169 Google LLC
-✅ Не найден в Spamhaus
+✅ Not found in Spamhaus
 🟢 Ping: ~7.7 ms
 🔒 TLS
-✅ TLSv1.3 поддерживается
-✅ TLS_AES_256_GCM_SHA384 используется
-⏳ TLS сертификат истекает через 65 дн.
+✅ TLSv1.3 supported
+✅ TLS_AES_256_GCM_SHA384 used
+⏳ TLS certificate expires in 65 days
 🌐 HTTP
-✅ HTTP/2 поддерживается
-✅ HTTP/3 (h3) поддерживается
-⏱️ TTFB: 0.13 сек
+✅ HTTP/2 supported
+✅ HTTP/3 (h3) supported
+⏱️ TTFB: 0.13 sec
 🔁 Redirect: https://www.google.com/
-🧾 Сервер: Google Web Server
-🟢 WAF не обнаружен
-⚠️ CDN обнаружен: Google
+🧾 Server: Google Web Server
+🟢 WAF not detected
+⚠️ CDN detected: Google
 📄 WHOIS
-📆 Срок действия: 2028-09-14T04:00:00
-🛰 Оценка пригодности
-❌ Не пригоден: CDN обнаружен (Google)
+📆 Expiration date: 2028-09-14T04:00:00
+🛰 Suitability assessment
+❌ Not suitable: CDN detected (Google)
 ```
 
-## � Команды бота
+## � Bot Commands
 
-### Пользовательские команды
-- `/start` — Приветствие и основное меню
-- `/check <domain>` — Краткая проверка домена
-- `/full <domain>` — Полная проверка домена  
-- `/mode` — Переключить режим вывода (краткий/полный)
-- `/history` — Показать последние 10 проверок
+### User Commands
+- `/start` — Greeting and main menu
+- `/check <domain>` — Brief domain check
+- `/full <domain>` — Full domain check  
+- `/mode` — Toggle output mode (brief/full)
+- `/history` — Show last 10 checks
 
-### Групповые команды
-- `!check <domain>` — Краткая проверка в группе
-- `!full <domain>` — Полная проверка в группе
-- `!help` — Справка по командам в группе
-- `@botname <domain>` — Упоминание бота для проверки
-- Ответ на сообщение бота с новым доменом
+### Group Commands
+- `!check <domain>` — Brief check in group
+- `!full <domain>` — Full check in group
+- `!help` — Help with commands in group
+- `@botname <domain>` — Mention the bot for checking
+- Reply to the bot's message with a new domain
 
-### Административные команды
-- `/adminhelp` — Список всех админ-команд
-- `/reset_queue` — Сбросить очередь проверок
-- `/clearcache` — Очистить кэш результатов
-- `/analytics` — Показать аналитику использования
-- `/groups` — Управление авторизованными группами
-- `/groups_add <ID>` — Добавить группу в авторизованные
-- `/groups_remove <ID>` — Удалить группу из авторизованных
-- `/groups_current` — Показать ID текущей группы
+### Administrative Commands
+- `/adminhelp` — List of all admin commands
+- `/reset_queue` — Reset the check queue
+- `/clearcache` — Clear result cache
+- `/analytics` — Show usage analytics
+- `/groups` — Manage authorized groups
+- `/groups_add <ID>` — Add group to authorized
+- `/groups_remove <ID>` — Remove group from authorized
+- `/groups_current` — Show current group ID
 
-## 🤖 Настройка бота в @BotFather
+## 🤖 Bot Setup in @BotFather
 
-### Быстрая настройка команд
-Полная заготовка команд для настройки в @BotFather находится в файле [`BOTFATHER_COMMANDS.txt`](BOTFATHER_COMMANDS.txt).
+### Quick Command Setup
+A complete command template for setup in @BotFather is in the file [`BOTFATHER_COMMANDS.txt`](BOTFATHER_COMMANDS.txt).
 
-#### Основные команды для @BotFather:
+#### Main commands for @BotFather:
 ```
 /setcommands
-start - 🚀 Запустить бота и показать меню
-check - 🔍 Краткая проверка домена
-full - 📄 Полная проверка домена
-mode - ⚙️ Переключить режим вывода
-history - 📜 Показать последние проверки
+start - 🚀 Launch the bot and show the menu
+check - 🔍 Brief domain check
+full - 📄 Full domain check
+mode - ⚙️ Toggle output mode
+history - 📜 Show recent checks
 ```
 
-#### Настройка описания:
+#### Setting the description:
 ```
 /setdescription
-Бот для проверки доменов на пригодность для Reality/VLESS прокси. Проверяет DNS, TLS, HTTP/2, ping, WHOIS и выдает краткие/полные отчеты. Поддерживает работу в группах с умными ответами.
+Bot for checking domains for suitability for Reality/VLESS proxy. Checks DNS, TLS, HTTP/2, ping, WHOIS and issues brief/full reports. Supports group operation with smart replies.
 ```
 
-#### Рекомендуемые настройки:
-- **Групповой режим**: Включить возможность добавления в группы
-- **Приватность**: `ENABLED` (бот видит только команды и упоминания)
-- **Инлайн-режим**: По желанию для расширенного функционала
+#### Recommended settings:
+- **Group mode**: Enable the ability to add to groups
+- **Privacy**: `ENABLED` (the bot sees only commands and mentions)
+- **Inline mode**: Optional for extended functionality
 
-💡 **Полный список команд и настроек** смотрите в [`BOTFATHER_COMMANDS.txt`](BOTFATHER_COMMANDS.txt)
+💡 **Full list of commands and settings** see in [`BOTFATHER_COMMANDS.txt`](BOTFATHER_COMMANDS.txt)
 
-## ⚙️ Переменные окружения
+## ⚙️ Environment Variables
 
-### Основные настройки
+### Basic Settings
 ```env
-BOT_TOKEN=your-telegram-bot-token          # Токен бота от @BotFather
-ADMIN_ID=123456789                         # ID администратора
-REDIS_HOST=redis                           # Хост Redis
-REDIS_PORT=6379                            # Порт Redis
-REDIS_PASSWORD=                            # Пароль Redis (опционально)
+BOT_TOKEN=your-telegram-bot-token          # Bot token from @BotFather
+ADMIN_ID=123456789                         # Administrator ID
+REDIS_HOST=redis                           # Redis host
+REDIS_PORT=6379                            # Redis port
+REDIS_PASSWORD=                            # Redis password (optional)
 ```
 
-### Настройки групповой работы
+### Group Work Settings
 ```env
-GROUP_MODE_ENABLED=true                    # Включить работу в группах
-GROUP_COMMAND_PREFIX=!                     # Префикс команд в группах
-GROUP_OUTPUT_MODE=short                    # Режим вывода в группах: short (краткий) или full (полный)
-AUTHORIZED_GROUPS=-1001234567890,-1009876543210  # ID разрешенных групп
-AUTO_LEAVE_UNAUTHORIZED=false             # Автоматически покидать неавторизованные группы
-BOT_USERNAME=your_bot_username             # Имя пользователя бота для deep links
+GROUP_MODE_ENABLED=true                    # Enable group operation
+GROUP_COMMAND_PREFIX=!                     # Command prefix in groups
+GROUP_OUTPUT_MODE=short                    # Output mode in groups: short (brief) or full (detailed)
+AUTHORIZED_GROUPS=-1001234567890,-1009876543210  # IDs of authorized groups
+AUTO_LEAVE_UNAUTHORIZED=false             # Automatically leave unauthorized groups
+BOT_USERNAME=your_bot_username             # Bot username for deep links
 ```
 
-### Дополнительные настройки
+### Additional Settings
 ```env
-SAVE_APPROVED_DOMAINS=false               # Сохранять список пригодных доменов
+SAVE_APPROVED_DOMAINS=false               # Save the list of suitable domains
 ```
 
-## 🔒 Настройка безопасности для групп
+## 🔒 Security Setup for Groups
 
-### 1. Получение ID группы
-Добавьте бота в группу и используйте команду:
+### 1. Get the Group ID
+Add the bot to the group and use the command:
 ```
 /groups_current
 ```
 
-### 2. Авторизация группы
-Добавьте ID в переменную окружения:
+### 2. Authorize the group
+Add the ID to the environment variable:
 ```env
 AUTHORIZED_GROUPS=-1001234567890,-1009876543210
 ```
 
-### 3. Автоматический выход
-Для автоматического выхода из неавторизованных групп:
+### 3. Automatic exit
+To automatically exit from unauthorized groups:
 ```env
 AUTO_LEAVE_UNAUTHORIZED=true
 ```
 
-## 🧵 Работа с темами в супергруппах
+## 🧵 Working with Topics in Supergroups
 
-Бот автоматически определяет тему (топик), в которой его упомянули, и отвечает именно в ней:
+The bot automatically determines the topic in which it was mentioned and replies in it:
 
-- 🎯 **Контекстные ответы** — результаты приходят в нужную тему
-- 📱 **Организованность** — обсуждения не смешиваются между темами  
-- 🔄 **Поддержка всех команд** — работают команды с префиксом, упоминания и ответы
+- 🎯 **Contextual responses** — results appear in the relevant topic
+- 📱 **Organization** — discussions don't mix between topics  
+- 🔄 **Support for all commands** — prefix commands, mentions, and replies work
 
-## �🚀 Быстрый запуск с Docker
+## �🚀 Quick Start with Docker
 
-1. Убедитесь, что установлены [Docker](https://docs.docker.com/get-docker/) и [Docker Compose](https://docs.docker.com/compose/install/).
+1. Make sure [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/) are installed.
 
-2. Создайте файл `.env` с токеном Telegram-бота, полученным от `@BotFather`:
+2. Create a `.env` file with the Telegram bot token received from `@BotFather`:
    ```bash
    echo "BOT_TOKEN=your-telegram-bot-token" > .env
    ```
 
-3. Создайте файл `docker-compose.yml`:
+3. Create a `docker-compose.yml` file:
    ```yaml
    services:
      bot:
@@ -310,37 +310,37 @@ AUTO_LEAVE_UNAUTHORIZED=true
            compress: "true"
    ```
 
-4. Запустите контейнеры:
+4. Start the containers:
    ```bash
    docker compose up -d
    ```
 
-5. Проверьте логи для подтверждения запуска:
+5. Check the logs to confirm the start:
    ```bash
    docker compose logs -f
    ```
 
-## � Лимиты и ограничения
+## � Limits and Restrictions
 
-### Лимиты для пользователей
-- **10 проверок в минуту** на пользователя
-- **100 проверок в день** на пользователя
-- **Автоматическая блокировка** при превышении лимитов
+### User Limits
+- **10 checks per minute** per user
+- **100 checks per day** per user
+- **Automatic blocking** when exceeding limits
 
-### Система наказаний
-- **5+ нарушений** → временная блокировка
-- **Прогрессивные тайм-ауты**: 1 мин → 5 мин → 15 мин → 1 час
-- **Автоматическое снятие** блокировок по истечении времени
+### Penalty System
+- **5+ violations** → temporary blocking
+- **Progressive time-outs**: 1 min → 5 min → 15 min → 1 hour
+- **Automatic lifting** of blocks after the time expires
 
-### Производительность
-- **Асинхронная обработка** для высокой пропускной способности
-- **Redis кэширование** результатов на 1 час
-- **Батч-обработка** для множественных проверок
-- **Автоматические повторы** при сбоях
+### Performance
+- **Asynchronous processing** for high throughput
+- **Redis caching** of results for 1 hour
+- **Batch processing** for multiple checks
+- **Automatic retries** on failures
 
-## 🏗️ Архитектура
+## 🏗️ Architecture
 
-### Компоненты системы
+### System Components
 ```
 ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
 │   Telegram  │───▶│    Bot      │───▶│   Redis     │
@@ -360,239 +360,239 @@ AUTO_LEAVE_UNAUTHORIZED=true
                    └─────────────┘    └─────────────┘
 ```
 
-### Модули
-- **`bot.py`** — основная логика бота и обработка команд
-- **`worker.py`** — воркер для выполнения проверок доменов
-- **`checker.py`** — модуль проверки доменов (DNS, TLS, HTTP, etc.)
-- **`redis_queue.py`** — управление очередью задач в Redis
-- **`retry_logic.py`** — система повторных попыток с экспоненциальным backoff
-- **`progress_tracker.py`** — прогресс-бары и батч-обработка
-- **`analytics.py`** — сбор и анализ метрик использования
+### Modules
+- **`bot.py`** — main bot logic and command handling
+- **`worker.py`** — worker for performing domain checks
+- **`checker.py`** — domain checking module (DNS, TLS, HTTP, etc.)
+- **`redis_queue.py`** — managing task queue in Redis
+- **`retry_logic.py`** — retry logic system with exponential backoff
+- **`progress_tracker.py`** — progress bars and batch processing
+- **`analytics.py`** — collection and analysis of usage metrics
 
-## 🛠️ Локальная разработка
+## 🛠️ Local Development
 
-### Требования
+### Requirements
 - Python 3.9+
 - Redis 6.0+
 - Docker & Docker Compose
 
-### Установка для разработки
-1. Клонируйте репозиторий:
+### Installation for Development
+1. Clone the repository:
    ```bash
    git clone https://github.com/DigneZzZ/bot-reality.git
    cd bot-reality
    ```
 
-2. Создайте виртуальное окружение:
+2. Create a virtual environment:
    ```bash
    python -m venv venv
    source venv/bin/activate  # Linux/Mac
-   # или
+   # or
    venv\Scripts\activate     # Windows
    ```
 
-3. Установите зависимости:
+3. Install dependencies:
    ```bash
    pip install -r requirements.txt
    ```
 
-4. Настройте переменные окружения в `.env`
+4. Set up environment variables in `.env`
 
-5. Запустите Redis:
+5. Start Redis:
    ```bash
    docker run -d -p 6379:6379 redis:7
    ```
 
-6. Запустите бота и воркер:
+6. Run the bot and worker:
    ```bash
    python bot.py &
    python worker.py
    ```
 
-## �🛠 Локальный запуск без Docker
+## �🛠 Local Launch without Docker
 
-1. Установите [Python 3.11+](https://www.python.org/downloads/) и [Redis](https://redis.io/docs/install/install-redis/).
-2. Клонируйте репозиторий:
+1. Install [Python 3.11+](https://www.python.org/downloads/) and [Redis](https://redis.io/docs/install/install-redis/).
+2. Clone the repository:
    ```bash
    git clone https://github.com/dignezzz/bot-reality.git
    cd bot-reality
    ```
-3. Создайте виртуальное окружение и установите зависимости:
+3. Create a virtual environment and install dependencies:
    ```bash
    python -m venv venv
-   source venv/bin/activate  # На Windows: venv\Scripts\activate
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
    pip install -r requirements.txt
    ```
-4. Настройте переменные окружения:
+4. Set up environment variables:
    ```bash
    export BOT_TOKEN=your-telegram-bot-token
    export REDIS_HOST=localhost
    export REDIS_PORT=6379
    ```
-5. Запустите бота:
+5. Run the bot:
    ```bash
    python bot.py
    ```
-6. В отдельном терминале запустите воркер:
+6. In a separate terminal, run the worker:
    ```bash
    python worker.py
    redis-cli --version
    ```
 
-## 🔧 Настройка и мониторинг
+## 🔧 Configuration and Monitoring
 
-### Проверка работоспособности
+### Checking the Health
 ```bash
-# Статус контейнеров
+# Status of containers
 docker-compose ps
 
-# Логи всех сервисов
+# Logs of all services
 docker-compose logs -f
 
-# Логи конкретного сервиса
+# Logs of a specific service
 docker-compose logs -f bot
 docker-compose logs -f worker
 
-# Мониторинг Redis
+# Monitoring Redis
 docker exec -it domain-redis redis-cli monitor
 ```
 
-### Статистика использования
-- Команда `/analytics` — детальная аналитика для администратора
-- Автоматический сбор метрик по пользователям и доменам
-- Отслеживание производительности и ошибок
+### Usage Statistics
+- Command `/analytics` — detailed analytics for the administrator
+- Automatic collection of metrics by users and domains
+- Performance and error tracking
 
-## 🤝 Вклад в проект
+## 🤝 Contributing to the Project
 
-Мы приветствуем вклад в развитие проекта! 
+We welcome contributions to the development of the project! 
 
-### Как внести вклад:
-1. Форкните репозиторий
-2. Создайте ветку для новой функции (`git checkout -b feature/AmazingFeature`)
-3. Зафиксируйте изменения (`git commit -m 'Add some AmazingFeature'`)
-4. Отправьте ветку (`git push origin feature/AmazingFeature`)
-5. Откройте Pull Request
+### How to Contribute:
+1. Fork the repository
+2. Create a branch for the new feature (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-### Сообщение об ошибках:
-- Используйте GitHub Issues для сообщения об ошибках
-- Предоставьте подробное описание проблемы
-- Включите логи и шаги для воспроизведения
+### Reporting Issues:
+- Use GitHub Issues to report bugs
+- Provide a detailed description of the problem
+- Include logs and steps to reproduce
 
-## 📄 Лицензия
+## 📄 License
 
-Этот проект распространяется под лицензией MIT. Подробности в файле [LICENSE](LICENSE).
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
-## 🏆 Благодарности
+## 🏆 Acknowledgments
 
-- **[Aiogram](https://github.com/aiogram/aiogram)** — современная асинхронная библиотека для Telegram Bot API
-- **[Redis](https://redis.io/)** — быстрое хранилище данных в памяти
-- **[Docker](https://docker.com/)** — контейнеризация и оркестрация
-- **[OpenAI](https://openai.com/)** — ИИ-ассистент в разработке
-- **[OpeNode.xyz](https://openode.xyz/)** — поддержка проекта
+- **[Aiogram](https://github.com/aiogram/aiogram)** — modern asynchronous library for Telegram Bot API
+- **[Redis](https://redis.io/)** — fast in-memory data store
+- **[Docker](https://docker.com/)** — containerization and orchestration
+- **[OpenAI](https://openai.com/)** — AI assistant in development
+- **[OpeNode.xyz](https://openode.xyz/)** — project support
 
-## 🚀 Что дальше?
+## 🚀 What's Next?
 
-### Планируемые улучшения:
-- 🌐 **Веб-интерфейс** для управления ботом
-- 📊 **Расширенная аналитика** с графиками
-- 🔄 **API для интеграции** с внешними сервисами
-- 🎯 **Машинное обучение** для улучшения оценки доменов
-- 🔒 **Дополнительные проверки безопасности**
+### Planned Improvements:
+- 🌐 **Web interface** for bot management
+- 📊 **Advanced analytics** with graphs
+- 🔄 **API for integration** with external services
+- 🎯 **Machine learning** for improved domain assessment
+- 🔒 **Additional security checks**
 
 ---
 
 <div align="center">
 
-**🌟 Если проект оказался полезным, поставьте звездочку!**
+**🌟 If the project was helpful, please give it a star!**
 
 Made with ❤️ by [DigneZzZ](https://github.com/DigneZzZ) and AI
 
 </div>
 
-### Зависимости
-- `aiogram`: Асинхронный фреймворк для Telegram-ботов.
-- `redis`: Клиент для взаимодействия с Redis.
-- `httpx`, `h2`: Проверка HTTP/2 и HTTP/3.
-- `requests`, `python-whois`: Запросы к внешним API и WHOIS.
-- `ping3`, `dnspython`: Пинг и DNS-запросы.
-- `aiohttp`: Асинхронные HTTP-запросы.
+### Dependencies
+- `aiogram`: Asynchronous framework for Telegram bots.
+- `redis`: Client for interacting with Redis.
+- `httpx`, `h2`: Checking HTTP/2 and HTTP/3.
+- `requests`, `python-whois`: Requests to external APIs and WHOIS.
+- `ping3`, `dnspython`: Ping and DNS requests.
+- `aiohttp`: Asynchronous HTTP requests.
 
-Полный список в `requirements.txt`.
+Full list in `requirements.txt`.
 
-## 🤖 Использование бота
+## 🤖 Using the Bot
 
-Найдите бота в Telegram и начните взаимодействие:
+Find the bot on Telegram and start interacting:
 
-### Команды
-- `/start`: Приветственное сообщение с инлайн-кнопками.
-- `/check <домен>`: Краткий отчёт (например, `/check example.com`).
-- `/full <домен>`: Полный отчёт (например, `/full example.com`).
-- `/ping`: Проверка работоспособности бота.
-- `/history`: Последние 10 проверок пользователя.
+### Commands
+- `/start`: Welcome message with inline buttons.
+- `/check <domain>`: Brief report (e.g., `/check example.com`).
+- `/full <domain>`: Full report (e.g., `/full example.com`).
+- `/ping`: Check bot availability.
+- `/history`: Last 10 user checks.
 
-### Другие способы
-- Отправьте домен напрямую: `example.com` (краткий отчёт).
-- Отправьте несколько доменов через запятую или перенос строки:
+### Other Methods
+- Send the domain directly: `example.com` (brief report).
+- Send multiple domains separated by comma or newline:
   ```
   example.com, google.com
   ```
-- Нажмите инлайн-кнопку "Полный отчёт" для получения детализированного результата.
+- Click the inline button "Full Report" to get a detailed result.
 
-### Ограничения
-- **Скорость**: 10 проверок за 30 секунд.
-- **Дневной лимит**: 100 проверок на пользователя.
-- **Штрафы**: Некорректные запросы могут привести к временной блокировке (от 1 минуты до 1 часа).
+### Restrictions
+- **Speed**: 10 checks per 30 seconds.
+- **Daily limit**: 100 checks per user.
+- **Penalties**: Incorrect requests may lead to temporary blocking (from 1 minute to 1 hour).
 
-## 🔧 Настройка и оптимизация
+## 🔧 Configuration and Optimization
 
 ### Redis
-Для предотвращения сбоев Redis настройте параметр ядра Linux:
+To prevent Redis crashes, configure the Linux kernel parameter:
 ```bash
 sudo sysctl vm.overcommit_memory=1
 echo "vm.overcommit_memory=1" | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p
 ```
 
-### Логирование
-Логи хранятся в файлах:
-- `bot.log`: Логи бота.
-- `worker.log`: Логи воркеров.
-- `checker.log`: Логи проверок.
-- `redis_queue.log`: Логи очереди.
+### Logging
+Logs are stored in files:
+- `bot.log`: Bot logs.
+- `worker.log`: Worker logs.
+- `checker.log`: Checking logs.
+- `redis_queue.log`: Queue logs.
 
-Логи в Docker ограничены 10 МБ (3 файла с сжатием).
+Docker logs are limited to 10 MB (3 files with compression).
 
 ### Healthcheck
-- Бот и воркеры: Проверка `/health` на порту 8080 (каждые 30 секунд).
-- Redis: Проверка `redis-cli ping` (каждые 10 секунд).
+- Bot and workers: Check `/health` on port 8080 (every 30 seconds).
+- Redis: Check `redis-cli ping` (every 10 seconds).
 
 ## 🛠 CI/CD
 
-Docker-образы автоматически собираются и публикуются в [GitHub Container Registry](https://ghcr.io/dignezzz/bot-reality) через GitHub Actions. Конфигурация в `.github/workflows/docker.yml`.
+Docker images are automatically built and published to [GitHub Container Registry](https://ghcr.io/dignezzz/bot-reality) via GitHub Actions. Configuration in `.github/workflows/docker.yml`.
 
-## 🔒 Безопасность
+## 🔒 Security
 
-- Храните `BOT_TOKEN` в `.env` и не публикуйте его.
-- Используйте переменные окружения вместо жёстко закодированных значений.
-- Регулярно обновляйте зависимости (`pip install -r requirements.txt --upgrade`).
+- Keep `BOT_TOKEN` in `.env` and don't publish it.
+- Use environment variables instead of hard-coded values.
+- Regularly update dependencies (`pip install -r requirements.txt --upgrade`).
 
-## 👨‍💻 Разработка
+## 👨‍💻 Development
 
-1. Клонируйте репозиторий:
+1. Clone the repository:
    ```bash
    git clone https://github.com/dignezzz/bot-reality.git
    cd bot-reality
    ```
-2. Скопируйте `.env.sample` в `.env` и настройте:
+2. Copy `.env.sample` to `.env` and configure:
    ```bash
    cp .env.sample .env
    nano .env
    ```
-3. Соберите и запустите:
+3. Build and start:
    ```bash
    docker compose up --build -d
    ```
 
-## 📜 Лицензия
+## 📜 License
 
-Разработано [neonode.cc](https://neonode.cc). Лицензия: MIT. Свяжитесь для обратной связи или предложений!
+Developed by [neonode.cc](https://neonode.cc). License: MIT. Contact for feedback or suggestions!

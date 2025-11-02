@@ -7,7 +7,7 @@ from collections import defaultdict, Counter
 import logging
 
 class AnalyticsCollector:
-    """Собирает и анализирует статистику использования бота"""
+    """Collects and analyzes bot usage statistics"""
     
     def __init__(self, redis_client: redis.Redis):
         self.redis = redis_client
@@ -16,23 +16,23 @@ class AnalyticsCollector:
         self,
         user_id: int,
         domain: str,
-        check_type: str,  # "short" или "full"
+        check_type: str,  # "short" or "full"
         result_status: str,  # "success", "failed", "cached"
         execution_time: Optional[float] = None
     ) -> None:
-        """Логирует проверку домена"""
+        """Logs a domain check"""
         timestamp = datetime.now().isoformat()
         
-        # Общая статистика
+        # General statistics
         await self.redis.incr("analytics:total_checks")
         await self.redis.incr(f"analytics:daily:{datetime.now().strftime('%Y%m%d')}")
         await self.redis.incr(f"analytics:user:{user_id}:total")
         
-        # Статистика по типам проверок
+        # Statistics by check types
         await self.redis.incr(f"analytics:check_type:{check_type}")
         await self.redis.incr(f"analytics:result_status:{result_status}")
         
-        # Детальный лог (храним 30 дней)
+        # Detailed log (keep 30 days)
         log_entry = {
             "timestamp": timestamp,
             "user_id": user_id,
@@ -46,25 +46,25 @@ class AnalyticsCollector:
             "analytics:detailed_logs",
             json.dumps(log_entry)
         )
-        await self.redis.expire("analytics:detailed_logs", 86400 * 30)  # 30 дней
+        await self.redis.expire("analytics:detailed_logs", 86400 * 30)  # 30 days
         
-        # Статистика по доменам
+        # Statistics by domains
         await self.redis.zincrby("analytics:popular_domains", 1, domain)
         
-        # Производительность
+        # Performance
         if execution_time:
             await self.redis.lpush(f"analytics:performance:{check_type}", execution_time)
-            await self.redis.ltrim(f"analytics:performance:{check_type}", 0, 999)  # Последние 1000
+            await self.redis.ltrim(f"analytics:performance:{check_type}", 0, 999)  # Last 1000
     
     async def log_user_activity(self, user_id: int, action: str, details: Optional[str] = None) -> None:
-        """Логирует активность пользователя"""
+        """Logs user activity"""
         timestamp = datetime.now().isoformat()
         
-        # Активность пользователя
+        # User activity
         await self.redis.incr(f"analytics:user:{user_id}:actions")
         await self.redis.incr(f"analytics:action:{action}")
         
-        # Последняя активность
+        # Last activity
         activity_data = {
             "timestamp": timestamp,
             "action": action,
@@ -73,37 +73,37 @@ class AnalyticsCollector:
         await self.redis.set(
             f"analytics:user:{user_id}:last_activity",
             json.dumps(activity_data),
-            ex=86400 * 7  # Храним 7 дней
+            ex=86400 * 7  # Keep for 7 days
         )
     
     async def get_analytics_summary(self, days: int = 7) -> Dict[str, Any]:
-        """Получает сводку аналитики за указанный период"""
+        """Gets analytics summary for the specified period"""
         end_date = datetime.now()
         start_date = end_date - timedelta(days=days)
         
-        # Базовая статистика
+        # Basic statistics
         total_checks = await self.redis.get("analytics:total_checks") or 0
         
-        # Статистика по дням
+        # Daily statistics
         daily_stats = {}
         for i in range(days):
             date = (end_date - timedelta(days=i)).strftime('%Y%m%d')
             count = await self.redis.get(f"analytics:daily:{date}") or 0
             daily_stats[date] = int(count)
         
-        # Популярные домены
+        # Popular domains
         popular_domains = await self.redis.zrevrange("analytics:popular_domains", 0, 9, withscores=True)
         
-        # Статистика по типам проверок
+        # Statistics by check types
         short_checks = await self.redis.get("analytics:check_type:short") or 0
         full_checks = await self.redis.get("analytics:check_type:full") or 0
         
-        # Статистика по результатам
+        # Statistics by results
         success_count = await self.redis.get("analytics:result_status:success") or 0
         failed_count = await self.redis.get("analytics:result_status:failed") or 0
         cached_count = await self.redis.get("analytics:result_status:cached") or 0
         
-        # Производительность
+        # Performance
         performance_stats = await self._get_performance_stats()
         
         return {
@@ -125,7 +125,7 @@ class AnalyticsCollector:
         }
     
     async def _get_performance_stats(self) -> Dict[str, Any]:
-        """Получает статистику производительности"""
+        """Gets performance statistics"""
         stats = {}
         
         for check_type in ["short", "full"]:
@@ -149,11 +149,11 @@ class AnalyticsCollector:
         return stats
     
     async def get_user_stats(self, user_id: int) -> Dict[str, Any]:
-        """Получает статистику конкретного пользователя"""
+        """Gets statistics for a specific user"""
         total_checks = await self.redis.get(f"analytics:user:{user_id}:total") or 0
         total_actions = await self.redis.get(f"analytics:user:{user_id}:actions") or 0
         
-        # Последняя активность
+        # Last activity
         last_activity_data = await self.redis.get(f"analytics:user:{user_id}:last_activity")
         last_activity = None
         if last_activity_data:
@@ -170,55 +170,55 @@ class AnalyticsCollector:
         }
     
     async def generate_analytics_report(self, admin_id: int) -> str:
-        """Генерирует текстовый отчет для администратора"""
+        """Generates a text report for the administrator"""
         summary = await self.get_analytics_summary(days=7)
         
-        report = "📊 <b>Аналитика бота (7 дней)</b>\n\n"
+        report = "📊 <b>Bot analytics (7 days)</b>\n\n"
         
-        # Общая статистика
-        report += f"🔢 <b>Общая статистика:</b>\n"
-        report += f"• Всего проверок: {summary['total_checks']}\n"
-        report += f"• Успешных: {summary['results']['success']}\n"
-        report += f"• Неудачных: {summary['results']['failed']}\n"
-        report += f"• Из кэша: {summary['results']['cached']}\n\n"
+        # General statistics
+        report += f"🔢 <b>General statistics:</b>\n"
+        report += f"• Total checks: {summary['total_checks']}\n"
+        report += f"• Successful: {summary['results']['success']}\n"
+        report += f"• Failed: {summary['results']['failed']}\n"
+        report += f"• From cache: {summary['results']['cached']}\n\n"
         
-        # Типы проверок
+        # Types of checks
         total_type_checks = summary['check_types']['short'] + summary['check_types']['full']
         if total_type_checks > 0:
             short_pct = (summary['check_types']['short'] / total_type_checks) * 100
             full_pct = (summary['check_types']['full'] / total_type_checks) * 100
-            report += f"📋 <b>Типы проверок:</b>\n"
-            report += f"• Краткие: {summary['check_types']['short']} ({short_pct:.1f}%)\n"
-            report += f"• Полные: {summary['check_types']['full']} ({full_pct:.1f}%)\n\n"
+            report += f"📋 <b>Types of checks:</b>\n"
+            report += f"• Short: {summary['check_types']['short']} ({short_pct:.1f}%)\n"
+            report += f"• Full: {summary['check_types']['full']} ({full_pct:.1f}%)\n\n"
         
-        # Популярные домены
+        # Popular domains
         if summary['popular_domains']:
-            report += f"🌐 <b>Топ-5 доменов:</b>\n"
+            report += f"🌐 <b>Top 5 domains:</b>\n"
             for i, (domain, count) in enumerate(summary['popular_domains'][:5], 1):
-                report += f"{i}. {domain} ({count} раз)\n"
+                report += f"{i}. {domain} ({count} times)\n"
             report += "\n"
         
-        # Производительность
+        # Performance
         perf = summary['performance']
         if perf['short']['total_samples'] > 0:
-            report += f"⚡ <b>Производительность:</b>\n"
-            report += f"• Краткие: {perf['short']['avg_time']:.1f}с (среднее)\n"
-            report += f"• Полные: {perf['full']['avg_time']:.1f}с (среднее)\n\n"
+            report += f"⚡ <b>Performance:</b>\n"
+            report += f"• Short: {perf['short']['avg_time']:.1f}s (average)\n"
+            report += f"• Full: {perf['full']['avg_time']:.1f}s (average)\n\n"
         
-        # Активность по дням
-        report += f"📅 <b>Активность по дням:</b>\n"
+        # Activity by day
+        report += f"📅 <b>Activity by day:</b>\n"
         for date, count in sorted(summary['daily_stats'].items(), reverse=True)[:7]:
             date_formatted = datetime.strptime(date, '%Y%m%d').strftime('%d.%m')
-            report += f"• {date_formatted}: {count} проверок\n"
+            report += f"• {date_formatted}: {count} checks\n"
         
         return report
 
     async def cleanup_old_data(self, days_to_keep: int = 30) -> None:
-        """Очищает старые данные аналитики"""
+        """Cleans up old analytics data"""
         cutoff_date = datetime.now() - timedelta(days=days_to_keep)
         
-        # Очищаем дневную статистику
-        for i in range(days_to_keep, days_to_keep + 30):  # Проверяем еще 30 дней назад
+        # Cleaning daily statistics
+        for i in range(days_to_keep, days_to_keep + 30):  # Check an additional 30 days back
             old_date = (datetime.now() - timedelta(days=i)).strftime('%Y%m%d')
             await self.redis.delete(f"analytics:daily:{old_date}")
         

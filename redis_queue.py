@@ -4,16 +4,16 @@ import logging
 from logging.handlers import RotatingFileHandler
 from typing import Optional
 
-# Настройка логирования
+# Logging setup
 log_file = "/app/redis_queue.log"
-# Уменьшаем размер файла логов и количество бэкапов
+# Reduce log file size and number of backups
 handler = RotatingFileHandler(log_file, maxBytes=5*1024*1024, backupCount=2)
 logging.basicConfig(
-    level=logging.WARNING,  # Изменено с INFO на WARNING
+    level=logging.WARNING,  # Changed from INFO to WARNING
     format="%(asctime)s - %(levelname)s - %(message)s",
     handlers=[handler, logging.StreamHandler()]
 )
-# Убираем инициализационный лог
+# Remove initialization log
 
 async def get_redis():
     try:
@@ -24,7 +24,7 @@ async def get_redis():
             decode_responses=True,
             retry_on_timeout=True
         )
-        # Убираем debug лог подключения
+            # Remove debug connection log
         return redis_client
     except Exception as e:
         logging.error(f"Failed to connect to Redis: {str(e)}")
@@ -46,21 +46,21 @@ async def enqueue(domain: str, user_id: int, short_mode: bool, chat_id: Optional
             logging.info(f"Domain {domain} for user {user_id} already in queue, skipping")
             return False
         
-        # Создаём расширенный task с контекстом чата
+            # Create extended task with chat context
         task_data = {
             'domain': domain,
             'user_id': user_id,
             'short_mode': short_mode,
-            'chat_id': chat_id or user_id,  # Если chat_id не указан, используем user_id (ЛС)
+            'chat_id': chat_id or user_id,  # If chat_id is not specified, use user_id (DM)
             'message_id': message_id,
             'thread_id': thread_id
         }
         
-        # Сериализуем в JSON для хранения в Redis
+            # Serialize to JSON for Redis storage
         import json
         task = json.dumps(task_data)
         await r.lpush("queue:domains", task)
-        await r.set(pending_key, "1", ex=300)  # Флаг на 5 минут
+        await r.set(pending_key, "1", ex=300)  # Flag for 5 minutes
         logging.info(f"Enqueued task: {task}")
         return True
     except Exception as e:
