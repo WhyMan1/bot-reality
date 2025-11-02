@@ -6,14 +6,14 @@ services:
     env_file:
       - .env
     environment:
-      # Переопределяем только Docker-специфичные настройки
+      # Override only Docker-specific settings
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     depends_on:
       - redis
     volumes:
       - ./approved_domains.txt:/app/approved_domains.txt
-      - geoip2_data:/app/data  # Постоянное хранение базы данных GeoIP2
+      - geoip2_data:/app/data  # Persistent storage for the GeoIP2 database
     tmpfs:
       - /tmp:size=50M
     restart: unless-stopped
@@ -25,8 +25,8 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: "5m"  # Уменьшено с 10m
-        max-file: "2"   # Уменьшено с 3
+        max-size: "5m"  # Reduced from 10m
+        max-file: "2"   # Reduced from 3
         compress: "true"
         
   worker:
@@ -35,14 +35,14 @@ services:
     env_file:
       - .env
     environment:
-      # Переопределяем только Docker-специфичные настройки
+      # Override only Docker-specific settings
       - REDIS_HOST=redis
       - REDIS_PORT=6379
     depends_on:
       - redis
     volumes:
       - ./approved_domains.txt:/app/approved_domains.txt
-      - geoip2_data:/app/data  # Постоянное хранение базы данных GeoIP2
+      - geoip2_data:/app/data  # Persistent storage for the GeoIP2 database
     tmpfs:
       - /tmp:size=50M
     restart: unless-stopped
@@ -56,8 +56,8 @@ services:
     logging:
       driver: json-file
       options:
-        max-size: "5m"  # Уменьшено с 10m  
-        max-file: "2"   # Уменьшено с 3
+        max-size: "5m"  # Reduced from 10m
+        max-file: "2"   # Reduced from 3
         compress: "true"
   redis:
     container_name: domain-redis
@@ -81,4 +81,4 @@ services:
         compress: "true"
 volumes:
   redis_data:
-  geoip2_data:  # Volume для хранения базы данных GeoIP2
+  geoip2_data:  # Volume for storing the GeoIP2 database

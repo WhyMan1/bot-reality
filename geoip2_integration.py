@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Интеграция автообновляльщика GeoIP2 с ботом.
-Запускает планировщик обновлений в фоновом режиме.
+GeoIP2 auto-updater integration with the bot.
+Runs the update scheduler in the background.
 """
 
 import os
@@ -10,28 +10,28 @@ from geoip2_updater import run_scheduler_in_background
 
 def setup_geoip2_auto_updater():
     """
-    Настраивает автоматическое обновление GeoIP2 базы данных.
-    Должно вызываться при запуске бота.
+    Configure automatic GeoIP2 database updates.
+    Should be called when the bot starts.
     """
     
-    # Проверяем, нужно ли включать автообновление
+    # Check whether auto-update should be enabled
     auto_update_enabled = os.getenv("GEOIP2_AUTO_UPDATE", "true").lower() == "true"
     
     if not auto_update_enabled:
-        print("🔕 Автообновление GeoIP2 отключено (GEOIP2_AUTO_UPDATE=false)")
+        print("🔕 GeoIP2 auto-update disabled (GEOIP2_AUTO_UPDATE=false)")
         return None
     
     try:
-        # Запускаем планировщик в фоновом потоке
+        # Start the scheduler in a background thread
         scheduler_thread = run_scheduler_in_background()
-        print("✅ Автообновление GeoIP2 запущено")
+        print("✅ GeoIP2 auto-update started")
         return scheduler_thread
     except Exception as e:
-        print(f"❌ Ошибка запуска автообновления GeoIP2: {e}")
+        print(f"❌ Failed to start GeoIP2 auto-update: {e}")
         return None
 
 def get_geoip2_status():
-    """Возвращает статус GeoIP2 базы данных"""
+    """Return GeoIP2 database status"""
     from geoip2_updater import load_update_info
     
     info = load_update_info()
@@ -47,26 +47,26 @@ def get_geoip2_status():
     else:
         return {
             "enabled": False,
-            "error": "База данных не найдена"
+            "error": "Database not found"
         }
 
 if __name__ == "__main__":
-    # Тестирование интеграции
-    print("🧪 Тестирование интеграции GeoIP2...")
+    # Integration test
+    print("🧪 Testing GeoIP2 integration...")
     
     status = get_geoip2_status()
-    print(f"📊 Статус: {status}")
+    print(f"📊 Status: {status}")
     
     if status["enabled"]:
-        print("✅ GeoIP2 готов к использованию")
+        print("✅ GeoIP2 is ready to use")
     else:
-        print("⚠️ Требуется настройка GeoIP2")
-        
-        # Запускаем автообновляльщик для первоначальной загрузки
-        print("🔄 Запускаем автообновляльщик...")
+        print("⚠️ GeoIP2 requires setup")
+
+        # Start the auto-updater for initial download
+        print("🔄 Starting auto-updater...")
         thread = setup_geoip2_auto_updater()
-        
+
         if thread:
-            print("✅ Автообновляльщик запущен в фоне")
+            print("✅ Auto-updater started in background")
         else:
-            print("❌ Не удалось запустить автообновляльщик")
+            print("❌ Failed to start auto-updater")

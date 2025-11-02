@@ -278,7 +278,7 @@ async def handle_domain_logic(message: Message, text: str, short_mode: bool):
         for domain in valid_domains:
             try:
                 cached_result = await r.get(f"result:{domain}")
-                if cached_result and (not final_short_mode or "краткий" in cached_result.lower()):
+                if cached_result and (not final_short_mode or "short" in cached_result.lower()):
                   # Send cached result; in groups append instruction about DM if group mode is short
                     response_text = cached_result
                     if is_group and GROUP_OUTPUT_MODE == "short":

@@ -200,8 +200,10 @@ class BatchProcessor:
         try:
             result = await check_function(domain, user_id, short_mode)
             
-            if result and "кэша" in result:
+            # Detect cached-result markers (use English 'cache' going forward)
+            if result and "cached" in result:
                 results["cached"].append(domain)
+            
             else:
                 results["successful"].append(domain)
                 
