@@ -1,55 +1,55 @@
 #!/usr/bin/env python3
 """
-Финальная проверка всех изменений в проекте
+Final check of all changes in the project
 """
 
 import os
 from pathlib import Path
 
 def check_env_files():
-    """Проверка .env файлов"""
-    print("🔍 Проверка .env файлов...")
+    """Check .env files"""
+    print("🔍 Checking .env files...")
     
-    # Проверяем .env.sample
+    # Check .env.sample
     env_sample_path = Path('.env.sample')
     if env_sample_path.exists():
         content = env_sample_path.read_text(encoding='utf-8')
         if 'GROUP_OUTPUT_MODE=short' in content:
-            print("✅ .env.sample содержит GROUP_OUTPUT_MODE")
+            print("✅ .env.sample contains GROUP_OUTPUT_MODE")
         else:
-            print("❌ .env.sample НЕ содержит GROUP_OUTPUT_MODE")
+            print("❌ .env.sample DOES NOT contain GROUP_OUTPUT_MODE")
     else:
-        print("❌ .env.sample не найден")
+        print("❌ .env.sample not found")
     
-    # Проверяем .env
+    # Check .env
     env_path = Path('.env')
     if env_path.exists():
         content = env_path.read_text(encoding='utf-8')
         if 'GROUP_OUTPUT_MODE=short' in content:
-            print("✅ .env содержит GROUP_OUTPUT_MODE")
+            print("✅ .env contains GROUP_OUTPUT_MODE")
         else:
-            print("❌ .env НЕ содержит GROUP_OUTPUT_MODE")
+            print("❌ .env DOES NOT contain GROUP_OUTPUT_MODE")
     else:
-        print("❌ .env не найден")
+        print("❌ .env not found")
 
 def check_bot_py():
-    """Проверка bot.py"""
-    print("\n🔍 Проверка bot.py...")
+    """Check bot.py"""
+    print("\n🔍 Checking bot.py...")
     
     bot_path = Path('bot.py')
     if not bot_path.exists():
-        print("❌ bot.py не найден")
+        print("❌ bot.py not found")
         return
         
     content = bot_path.read_text(encoding='utf-8')
     
     checks = [
-        ('GROUP_OUTPUT_MODE = os.getenv', "Переменная GROUP_OUTPUT_MODE"),
-        ('def get_full_report_button' not in content, "Функция get_full_report_button удалена"),
-        ('def get_group_full_report_button' not in content, "Функция get_group_full_report_button удалена"),
-        ('cq_full_report' not in content, "Callback handler cq_full_report удален"),
-        ('final_short_mode = short_mode and (GROUP_OUTPUT_MODE == "short")', "Логика GROUP_OUTPUT_MODE для групп"),
-        ('Для полного логирования выполните повторный запрос в ЛС боту', "Инструкция для групп"),
+        ('GROUP_OUTPUT_MODE = os.getenv', "GROUP_OUTPUT_MODE variable"),
+        ('def get_full_report_button' not in content, "Function get_full_report_button removed"),
+        ('def get_group_full_report_button' not in content, "Function get_group_full_report_button removed"),
+        ('cq_full_report' not in content, "Callback handler cq_full_report removed"),
+        ('final_short_mode = short_mode and (GROUP_OUTPUT_MODE == "short")', "GROUP_OUTPUT_MODE logic for groups"),
+        ('For full logging, make a repeated request to the bot in DM', "Instruction for groups"),
     ]
     
     for check, description in checks:
@@ -65,23 +65,23 @@ def check_bot_py():
                 print(f"❌ {description}")
 
 def check_worker_py():
-    """Проверка worker.py"""
-    print("\n🔍 Проверка worker.py...")
+    """Check worker.py"""
+    print("\n🔍 Checking worker.py...")
     
     worker_path = Path('worker.py')
     if not worker_path.exists():
-        print("❌ worker.py не найден")
+        print("❌ worker.py not found")
         return
         
     content = worker_path.read_text(encoding='utf-8')
     
     checks = [
-        ('GROUP_OUTPUT_MODE = os.getenv', "Переменная GROUP_OUTPUT_MODE"),
-        ('def get_full_report_button' not in content, "Функция get_full_report_button удалена"),
-        ('def get_group_full_report_button' not in content, "Функция get_group_full_report_button удалена"),
-        ('InlineKeyboardMarkup' not in content, "Импорт InlineKeyboardMarkup удален"),
-        ('GROUP_OUTPUT_MODE == "short"', "Логика GROUP_OUTPUT_MODE"),
-        ('Для полного логирования выполните повторный запрос в ЛС боту', "Инструкция для групп"),
+        ('GROUP_OUTPUT_MODE = os.getenv', "GROUP_OUTPUT_MODE variable"),
+        ('def get_full_report_button' not in content, "Function get_full_report_button removed"),
+        ('def get_group_full_report_button' not in content, "Function get_group_full_report_button removed"),
+        ('InlineKeyboardMarkup' not in content, "InlineKeyboardMarkup import removed"),
+        ('GROUP_OUTPUT_MODE == "short"', "GROUP_OUTPUT_MODE logic"),
+        ('For full logging, make a repeated request to the bot in DM', "Instruction for groups"),
     ]
     
     for check, description in checks:
@@ -97,26 +97,26 @@ def check_worker_py():
                 print(f"❌ {description}")
 
 def check_readme():
-    """Проверка README.md"""
-    print("\n🔍 Проверка README.md...")
+    """Check README.md"""
+    print("\n🔍 Checking README.md...")
     
     readme_path = Path('README.md')
     if not readme_path.exists():
-        print("❌ README.md не найден")
+        print("❌ README.md not found")
         return
         
     content = readme_path.read_text(encoding='utf-8')
     
     if 'GROUP_OUTPUT_MODE=short' in content:
-        print("✅ README.md содержит документацию для GROUP_OUTPUT_MODE")
+        print("✅ README.md contains documentation for GROUP_OUTPUT_MODE")
     else:
-        print("❌ README.md НЕ содержит документацию для GROUP_OUTPUT_MODE")
+        print("❌ README.md DOES NOT contain documentation for GROUP_OUTPUT_MODE")
 
 def main():
-    print("🚀 Финальная проверка проекта bot-reality")
+    print("🚀 Final project check for bot-reality")
     print("=" * 50)
     
-    # Меняем рабочую директорию, если нужно
+    # Change working directory if needed
     if not Path('bot.py').exists():
         os.chdir('c:/Users/digne/OneDrive/Документы/GitHub/bot-reality')
     
@@ -126,14 +126,14 @@ def main():
     check_readme()
     
     print("\n" + "=" * 50)
-    print("📋 Итоги изменений:")
-    print("✅ Добавлена переменная GROUP_OUTPUT_MODE в .env файлы")
-    print("✅ Удалены все функции создания кнопок")
-    print("✅ Удален callback handler для кнопок")
-    print("✅ Упрощена логика: текстовые инструкции вместо кнопок")
-    print("✅ Deep-link функциональность сохранена")
-    print("✅ Обновлена документация в README.md")
-    print("\n🎯 Deep-link https://t.me/gig_reality_bot?start=ya.ru должен работать!")
+    print("📋 Summary of changes:")
+    print("✅ Added GROUP_OUTPUT_MODE variable in .env files")
+    print("✅ Removed all button-creation functions")
+    print("✅ Removed callback handler for buttons")
+    print("✅ Simplified logic: textual instructions instead of buttons")
+    print("✅ Deep-link functionality preserved")
+    print("✅ Documentation updated in README.md")
+    print("\n🎯 Deep-link https://t.me/gig_reality_bot?start=ya.ru should work!")
 
 if __name__ == "__main__":
     main()

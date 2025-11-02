@@ -1,35 +1,35 @@
 #!/bin/bash
 
-# Скрипт очистки логов для Docker контейнера
-# Запускается ежедневно в 2:00 через cron
+# Log cleanup script for Docker container
+# Runs daily at 2:00 via cron
 
 LOG_DIR="/app"
 MAX_LOG_SIZE="50M"
-MAX_LOG_AGE=7  # дней
+MAX_LOG_AGE=7  # days
 
-echo "$(date): Начинаем очистку логов..."
+echo "$(date): Starting log cleanup..."
 
-# Удаляем старые лог файлы (старше 7 дней)
+# Remove old log files (older than 7 days)
 find $LOG_DIR -name "*.log*" -type f -mtime +$MAX_LOG_AGE -delete 2>/dev/null
 
-# Очищаем большие лог файлы (больше 50MB)
+# Truncate large log files (> 50MB)
 find $LOG_DIR -name "*.log*" -type f -size +$MAX_LOG_SIZE -exec truncate -s 0 {} \; 2>/dev/null
 
-# Очищаем системные логи Docker
+# Clean Docker system logs
 if [ -w /var/log ]; then
     find /var/log -name "*.log" -type f -mtime +3 -delete 2>/dev/null
 fi
 
-# Очищаем temporary файлы
+# Clean temporary files
 find /tmp -name "*.tmp" -type f -mtime +1 -delete 2>/dev/null
 find /tmp -name "*.temp" -type f -mtime +1 -delete 2>/dev/null
 
-# Очищаем кэш pip если есть
+# Clean pip cache if present
 if [ -d "/root/.cache/pip" ]; then
     rm -rf /root/.cache/pip/* 2>/dev/null
 fi
 
-echo "$(date): Очистка логов завершена"
+echo "$(date): Log cleanup completed"
 
-# Показываем статистику использования диска
+# Show disk usage stats
 df -h /app /tmp 2>/dev/null || true
