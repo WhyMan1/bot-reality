@@ -301,7 +301,7 @@ def get_enhanced_ip_info(ip, timeout=10):
     
     # Basic information from ip-api.com (fast and reliable)
     try:
-        response = requests.get(f"http://ip-api.com/json/{ip}?lang=ru", timeout=timeout)
+        response = requests.get(f"http://ip-api.com/json/{ip}?lang=en", timeout=timeout)
         if response.status_code == 200:
             data = response.json()
             if data.get("status") == "success":
